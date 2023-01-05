@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: index-html-wear
+data:
+  index.html: |
+    <html>
+    <h1>WEAR WEAR WEAR WEAR WEAR WEAR</h1>
+    </br>
+    </html
+    <h1>This is the /WEAR Ingress path</h1>
+    </html

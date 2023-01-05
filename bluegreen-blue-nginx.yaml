@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: blue-app
+    tier: web
+  name: blue-app
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: blue-app
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: blue-app
+        tier: web
+    spec:
+      containers:
+      - image: harbor-repo.vmware.com/dockerhub-proxy-cache/library/nginx:1.22.1
+        name: nginx
+        ports:
+        - containerPort: 80

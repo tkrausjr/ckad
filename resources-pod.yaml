@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: resources-sleeper
+  labels:
+    app: resources-sleeper
+spec:
+  containers:
+  - image: harbor-repo.vmware.com/dockerhub-proxy-cache/library/ubuntu
+    command:
+      - "sleep"
+      - "604800"
+    imagePullPolicy: IfNotPresent
+    name: resources-sleeper
+    resources:
+      requests:
+        memory: "1Gi"
+        cpu: 1
+      limits:
+        memory: "2Gi"
+        cpu: 1.5
+  restartPolicy: Always

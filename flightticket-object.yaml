@@ -1,0 +1,8 @@
+apiVersion: flights.com/v1
+kind: FlightTicket
+metadata:
+  name: flighttix-1-ny-london
+spec:
+  from: New York
+  to: London
+  number: 2

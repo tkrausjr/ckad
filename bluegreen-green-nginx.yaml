@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: green-app
+    tier: web
+  name: green-app
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: green-app
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: green-api
+        tier: web
+    spec:
+      containers:
+      - image: harbor-repo.vmware.com/dockerhub-proxy-cache/library/nginx:1.23.2
+        name: nginx
+
+

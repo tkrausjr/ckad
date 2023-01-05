@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nginx-deploy
+  name: ingress-watch-nginx
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: ingress-watch-nginx
+  template:
+    metadata:
+      labels:
+        app: ingress-watch-nginx
+        run: nginx
+        tier: web
+    spec:
+      containers:
+      - image: harbor-repo.vmware.com/dockerhub-proxy-cache/library/nginx
+        name: nginx
+        volumeMounts:
+          - mountPath: /usr/share/nginx/html/index.html
+            name: nginx-conf
+            subPath: index.html
+      volumes:
+        - name: nginx-conf
+          configMap:
+            name: index-html-watch

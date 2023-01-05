@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: nginx-admission-controller-ns-autoprovision
+  name: nginx-admission-controller-ns-autoprovision
+  namespace: doesnotexist
+spec:
+  containers:
+  - image: harbor-repo.vmware.com/dockerhub-proxy-cache/library/nginx
+    name: nginx-admission-controller-ns-autoprovision
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Never
+status: {}

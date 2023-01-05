@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: index-html-watch
+data:
+  index.html: |
+    <html>
+    <h1>WATCH WATCH WATCH WATCH WATCH WATCH</h1>
+    </br>
+    </html
+    <h1>This is the /WATCH Ingress path</h1>
+    </html

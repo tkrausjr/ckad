@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: nginx-imperative
+  name: nginx-imperative
+spec:
+  containers:
+  - image: harbor-repo.vmware.com/dockerhub-proxy-cache/library/nginx
+    name: nginx-imperative
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}
