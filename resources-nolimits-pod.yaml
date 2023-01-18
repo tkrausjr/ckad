@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: resources-nolimits-pod
+spec:
+  containers:
+  - name: busybox
+    image: harbor-repo.vmware.com/dockerhub-proxy-cache/library/busybox:stable
+    command: ['sh','-c','while true; do echo Running...; sleep 5; done']
+

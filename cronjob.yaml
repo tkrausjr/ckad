@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+    name: reporting-cron-job
+spec:
+  schedule: "* * * * *"
+  jobTemplate:
+    spec:
+      completions: 6
+      template:
+        spec:
+          containers:
+          - name: reporting-tool
+            image: harbor-repo.vmware.com/dockerhub-proxy-cache/devopscube/kubernetes-job-demo:latest
+            args: ["100"]
+          restartPolicy: Never
+      ttlSecondsAfterFinished: 180

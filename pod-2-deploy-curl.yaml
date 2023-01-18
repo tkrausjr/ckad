@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pod-2-deploy-curl
+  labels:
+    use: ckad
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: pod-2-deploy-curl  
+  template:
+    metadata:
+      name: pod-2-deploy-curl
+      labels:
+        app: pod-2-deploy-curl
+    spec:
+      containers:
+        - name: pod-command-container
+          image: harbor-repo.vmware.com/dockerhub-proxy-cache/library/nginx
+          command: ["/bin/sh", "-c" ]
+          args: ["while true; do curl http://ingress-watch-nginx-svc.default.svc.cluster.local -i -v; sleep 10; done"]
+      restartPolicy: Always  
