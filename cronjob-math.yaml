@@ -1,0 +1,16 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+    name: cron-job-math
+spec:
+  schedule: "* * * * *"
+  jobTemplate:
+    spec:
+      completions: 20
+      template:
+        spec:
+          containers:
+            - name: math-add
+              image: harbor-repo.vmware.com/dockerhub-proxy-cache/library/ubuntu
+              command: ["expr","3","+","4"]
+          restartPolicy: Never

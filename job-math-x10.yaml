@@ -1,0 +1,13 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: math-add-10completes
+spec:
+  completions: 20
+  template:
+    spec:
+      containers:
+        - name: math-add
+          image: harbor-repo.vmware.com/dockerhub-proxy-cache/library/ubuntu
+          command: ["expr","3","+","4"]
+      restartPolicy: Never

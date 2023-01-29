@@ -1,19 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  creationTimestamp: null
   labels:
     app: deployment-strategy-rollout
-  name: deployment-strategy-rollout
+  name: nginx-deployment
 spec:
   replicas: 5
   selector:
     matchLabels:
       app: deployment-strategy-rollout
-  strategy: {}
+  strategy: 
   template:
     metadata:
-      creationTimestamp: null
       labels:
         app: deployment-strategy-rollout
     spec:
