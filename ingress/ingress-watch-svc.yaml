@@ -1,13 +1,14 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: ingress-wear-nginx-svc
+  name: ingress-watch-nginx-svc
   labels:
     run: nginx
+  namespace: pluto
 spec:
   type: ClusterIP
   ports:
   - port: 80
     targetPort: 80
   selector:
-    app: ingress-wear-nginx
+    app: ingress-watch-nginx

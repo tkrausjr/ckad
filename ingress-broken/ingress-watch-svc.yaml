@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ingress-watch-nginx-svc
+  labels:
+    run: nginx
+  namespace: broken-pluto
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8080
+    targetPort: 443     
+  selector:
+    app: ingress-watch-nginx

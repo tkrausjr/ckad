@@ -4,6 +4,7 @@ metadata:
   name: ingress-wear-watch
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
+  namespace: broken-pluto
 spec:
   ingressClassName: nginx
   rules:

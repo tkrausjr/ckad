@@ -3,16 +3,17 @@ kind: Deployment
 metadata:
   labels:
     app: nginx-deploy
-  name: ingress-wear-nginx
+  name: ingress-watch-nginx
+  namespace: broken-pluto
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: ingress-wear-nginx
+      app: ingress-watch-broken
   template:
     metadata:
       labels:
-        app: ingress-wear-nginx
+        app: ingress-watch-broken
         run: nginx
         tier: web
     spec:
@@ -26,4 +27,4 @@ spec:
       volumes:
         - name: nginx-conf
           configMap:
-            name: index-html-wear
+            name: index-html-watch
