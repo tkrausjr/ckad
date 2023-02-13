@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: neb-new-job
+  namespace: neptune
+spec:
+  parallelism: 2
+  completions: 3
+  template:
+    metadata:
+      labels:
+        id: awesome-job
+    spec:
+      containers:
+      - image: harbor-repo.vmware.com/dockerhub-proxy-cache/library/busybox:1.31.0
+        name: neb-new-job-container
+      restartPolicy: Never

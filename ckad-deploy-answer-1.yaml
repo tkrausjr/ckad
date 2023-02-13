@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: pod-2-deploy
+  name: pod-2-deploy
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: pod-2-deploy
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: pod-2-deploy
+    spec:
+      containers:
+      - name: pod-command-container
+        image: harbor-repo.vmware.com/dockerhub-proxy-cache/library/nginx
+        command: ["/bin/sh", "-c" ]
+        args: ["while true; do curl https://kubernetes.default.svc.cluster.local -k; sleep 10; done"]
+      restartPolicy: Always
+

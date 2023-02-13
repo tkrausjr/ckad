@@ -16,4 +16,10 @@ spec:
               run: api
       ports:
         - protocol: TCP
-          port: 2222
+          port: 443
+    - ports:
+      - port: 53
+        protocol: UDP
+      - port: 53
+        protocol: TCP
+
