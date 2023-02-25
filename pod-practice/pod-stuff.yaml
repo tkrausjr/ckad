@@ -1,0 +1,73 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: pod-practice
+  name: pod-practice
+spec:         # This is the POD Spec
+  serviceAccountName: pod-practice-sa  # K8s API Token mounted in containers /var/run/secrets/kuernetes.io/serviceaccount/
+  securityContext:        # Will apply to all containers in this POD.
+    runAsUser: 1000       # User to run all POD Containers as.
+  volumes:
+    - name: pvc-pod-practice
+      persistentVolumeClaim:        # If your SC doesnt support dynamic provisioning you need to apply pv-lesson-pv.yaml
+        claimName: task-pv-claim    # Assumes you applied pv-lesson-pvc.yaml to creat the PVC
+    - name: user-configmap-vol
+      configMap:          # Crete a volume from a configmap
+        name: users       # name of configMap to mount as volume
+    - name: passwords-secret-vol
+      secret:                   # Crete a volume from a secret
+        secretName: passwords   # name of secret to mount as volume
+  initContainers:
+  - name: pod-init
+    image: harbor-repo.vmware.com/dockerhub-proxy-cache/library/busybox:1.28
+    # Init container keeps looping until a SVC named 'myservice' exists in same namespace as this POD. (default) 
+    command: ['sh', '-c', "until nslookup myservice.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for myservice; sleep 2; done"]
+  containers:
+  - image: harbor-repo.vmware.com/dockerhub-proxy-cache/library/busybox
+    name: pod-practice
+    securityContext:
+      runAsUser: 1001                   # Overrides settings at the POD level. 
+      allowPrivilegeEscalation: false   # Set at Container Level
+      capabilities:                     # Linux Capabilities grant granular privileges instead of allowing ROOT
+        add: ["NET_ADMIN","SYS_TIME"]
+    resources:
+      requests:
+        cpu: "64m"
+        memory: "32Mi"
+      limits:
+        cpu: "160m"
+        memory: "64Mi"
+    command: ["/bin/sh","-c"]
+    args: ["touch /tmp/healthy; touch /tmp/pvc-volume/HAPPY.txt; env; sleep 60; rm -f /tmp/healthy; sleep 600"]
+    env:
+      - name: USER_1    # Define the environment variable
+        valueFrom:
+          configMapKeyRef:    # Use a ConfigMap 
+            name: users       # Name of ConfigMap 
+            key: user1        # Name of Key in ConfigMap
+      - name: TOM_PASSWORD    # Define the environment variable
+        valueFrom:
+          secretKeyRef:       # Use a Secret 
+            name: passwords   # Name of Secret 
+            key: tom          # Name of Key in Secret
+    livenessProbe:      # To restart POD if check fails
+      exec:
+        command: ["cat", "/tmp/healthy"]
+      initialDelaySeconds: 10
+      periodSeconds: 30     # Frequency in seconds to perform the checks
+    readinessProbe:         # To remove from Service Endpoints if check fails
+      exec:
+        command: ["cat","/tmp/healthy"]
+      initialDelaySeconds: 300
+      periodSeconds: 180     # Frequency in seconds to perform the checks
+    volumeMounts:
+      - name: pvc-pod-practice              # Name of PVC Volume from above .
+        mountPath: /tmp/pvc-volume          # Will create the directory for us. Keys listed under this directory      
+      - name: user-configmap-vol            # Name of Volume from above in spec.
+        mountPath: /tmp/mnt-doesnotexist    # Will create the directory for us. Keys listed under this directory
+      - name: passwords-secret-vol          # Name of Volume from above in spec.
+        mountPath: /tmp/secret-passwords    # Will create the directory for us. Keys listed under this directory
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+

@@ -1,0 +1,18 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: hello
+spec:
+  schedule: "59 * * * *"
+  jobTemplate:
+    spec:
+      backoffLimit: 6   # Num Retries of failed POds before marking Job as Failed
+      parallelism: 4    # Num of PODs to run in parallel
+      completions: 20   # Num PODS Completed to consider the job complete
+      template:
+        spec:
+          containers:
+            - name: math-add
+              image: harbor-repo.vmware.com/dockerhub-proxy-cache/library/ubuntu
+              command: ["expr","3","+","4"]
+          restartPolicy: Never

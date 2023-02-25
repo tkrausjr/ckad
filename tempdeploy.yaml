@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: tempdeploy
+  name: tempdeploy
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: tempdeploy
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: tempdeploy
+    spec:
+      initContainers:
+      - image: harbor-repo.vmware.com/dockerhub-proxy-cache/library/nginx
+        name: init
+        command: ["/bin/sh","-c"]
+        args: ["ls","-ahl"]
+      containers:
+      - image: harbor-repo.vmware.com/dockerhub-proxy-cache/library/nginx
+        name: nginx
+      restartPolicy: Always

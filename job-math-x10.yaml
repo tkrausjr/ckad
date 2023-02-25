@@ -1,9 +1,11 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: math-add-10completes
+  name: math-add-job
 spec:
-  completions: 20
+  backoffLimit: 6   # Num Retries of failed POds before marking Job as Failed
+  parallelism: 4    # Num of PODs to run in parallel
+  completions: 20   # Num PODS Completed to consider the job complete
   template:
     spec:
       containers:

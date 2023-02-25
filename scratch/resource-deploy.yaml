@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: resource-deploy
+  name: resource-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: resource-deploy
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: resource-deploy
+    spec:
+      containers:
+      - image: harbor-repo.vmware.com/dockerhub-proxy-cache/library/busybox
+        name: resourcepod
+        command: ["/bin/sh","-c","while true; do ls -ahl; sleep 70; done"]
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "36Mi"
+          limits:
+            cpu: "300m"
+            memory: "128Mi"

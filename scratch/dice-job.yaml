@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  creationTimestamp: null
+  name: throw-dice-job
+spec:
+  backoffLimit: 8
+  template:
+    metadata:
+      creationTimestamp: null
+    spec:
+      containers:
+      - image: harbor-repo.vmware.com/dockerhub-proxy-cache/kodekloud/throw-dice
+        name: throw-dice-job
+        resources: {}
+      restartPolicy: Never
+status: {}

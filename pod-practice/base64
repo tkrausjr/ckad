@@ -1,0 +1,13 @@
+cat: invalid option -- 'd'
+BusyBox v1.36.0 (2023-01-03 22:42:57 UTC) multi-call binary.
+
+Usage: cat [-nbvteA] [FILE]...
+
+Print FILEs to stdout
+
+	-n	Number output lines
+	-b	Number nonempty lines
+	-v	Show nonprinting characters as ^x or M-x
+	-t	...and tabs as ^I
+	-e	...and end lines with $
+	-A	Same as -vte
