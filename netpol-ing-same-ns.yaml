@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: netpol-ing-same-ns
+  namespace: pluto      # The namespace where rules are applied to
+spec:
+  podSelector:  # The podSelector applies ONLY to pods in same namespace as the policy.
+    matchLabels:
+      app: ingress-watch-nginx  # Pods in the namespace where the Ingress rules are applied to
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: nginx-client    # POds who are allowed to SEND Ingress traffic on designated ports.
+      ports:
+        - protocol: TCP
+          port: 80
