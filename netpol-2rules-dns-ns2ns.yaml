@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: test-policy
+  namespace: space1
+spec:
+  podSelector: {}
+  ingress:
+    - from:
+        - podSelector: {}
+  egress:
+    - to:
+        - ipBlock:       # Allow DNS from space1 NS to Google Server #1
+          cidr: 8.8.8.8/32   
+        - ipBlock:       # Allow DNS from space1 NS to Google Server #2
+          cidr: 8.8.4.4/32
+      ports:
+        - port: 53
+          protocol: UDP
+        - port: 53
+          protocol: TCP
+    - to:
+        - namespaceSelector:   # Allow all from space1 NS to space2 NS
+            matchLabels:
+              kubernetes.io/metadata.name: space2

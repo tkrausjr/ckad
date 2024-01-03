@@ -16,7 +16,7 @@ spec:
     metadata:
       creationTimestamp: null
       labels:
-        app: green-api
+        app: green-app
         tier: web
     spec:
       containers:

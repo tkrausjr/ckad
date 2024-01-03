@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: canary-v1
+    version: v1
+  name: canary-v1
+spec:
+  replicas: 6
+  selector:
+    matchLabels:
+      app: canary
+      version: v1
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: canary
+        version: v1 
+    spec:
+      volumes:
+        - name: my-pv
+          persistentVolumeClaim: 
+            claimName: task-pv-claim
+      containers:
+      - image: harbor-repo.vmware.com/dockerhub-proxy-cache/library/nginx:1.22.1
+        name: nginx
+        command: ["/bin/sh","-c","while true; do touch /etc/my-pv-dir/AFILE.txt, sleep 1d; done"]
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - mountPath: "/etc/my-pv-dir"
+          name: my-pv
+      restartPolicy: Always
