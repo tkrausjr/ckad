@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: canary-v2
+    version: v2
+  name: canary-v2
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: canary
+      version: v2
+  template:
+    metadata:
+      labels:
+        app: canary
+        version: v2 
+    spec:
+      containers:
+      - image: harbor-repo.vmware.com/dockerhub-proxy-cache/library/nginx:1.22.1
+        name: nginx
+        ports:
+        - containerPort: 80

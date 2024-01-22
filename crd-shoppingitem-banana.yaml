@@ -1,0 +1,7 @@
+apiVersion: beta.killercoda.com/v1  # From CRD yaml spec.group + / + spec.versions.
+kind: ShoppingItem  # From the CRD under names.kind:
+metadata:
+  name: bananas
+spec:
+  dueDate: "tomorrow"
+  description: "buy yellow ones"
