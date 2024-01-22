@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: mycanary-v1
+    team: blue
+  name: mycanary-v1
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: mycanary-v1
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: mycanary-v1
+    spec:
+      volumes:
+      - name: my-cm-vol
+        configMap:
+          name: tk-cm
+      containers:
+      - image: harbor-repo.vmware.com/dockerhub-proxy-cache/library/nginx:alpine
+        name: nginx
+        volumeMounts:
+        - name: my-cm-vol
+          mountPath: /etc/config
+        resources: {}
+        env:
+        - name: USER1-from-env
+          valueFrom:
+            configMapKeyRef: 
+              name: tk-cm
+              key: user1 
+        envFrom:
+        - configMapRef:
+            name: tk-cm
+status: {}
